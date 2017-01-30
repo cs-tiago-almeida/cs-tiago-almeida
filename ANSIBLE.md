@@ -89,7 +89,7 @@ Apos o termino das confirmações, teremos 2 arquivos:
 
 Em seguida, copie sua chave pública para os servidores com o comando **ssh-copy-id**:
 
-+ $ ssh-copy-id -i ~/.ssh/id_rsa.pub <user>@<host>
++ **$ ssh-copy-id -i ~/.ssh/id_rsa.pub <user>@<host>**
 
 ![ssh-copy](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/ssh-copy.png)
 
@@ -107,7 +107,7 @@ O Ansible assumirá que você tem acesso SSH disponível para seus servidores, n
 A saída que temos do Ansible é JSON que nos diz se a Tarefa fez alguma alteração e o seu resultado.
 Se precisamos definir o usuário e talvez algumas outras configurações para se conectar ao nosso servidor, podemos fazer uso das seguintes FLAGS
 
-+ $ ansible all -m ping -k -u <user>
++ **$ ansible all -m ping -k -u <user>**
 
 Onde:
 
