@@ -145,7 +145,7 @@ Podemos executar todas as nossas tarefas necessárias (através de módulos) des
 
 Os Playbooks podem executar várias Tarefas(TASKS) e fornecer algumas funcionalidades mais avançadas. 
 
-![alt text](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/orchestration.gif
+![alt text](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/orchestration.gif)
 
 Segue um exemplo de um playbook com instação do requisitos do Apache LAMP.
 
