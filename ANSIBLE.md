@@ -1,4 +1,6 @@
-# Automação e provisionamento ágil com Ansible ![index](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/index.png)
+   ![index](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/logo.png)
+
+# Automação e provisionamento ágil com Ansible
 
 Hoje vou falar um pouco sobre minha experiência com uma ferramenta muito útil de automação, o _Ansible_.
 Estou trabalhando em um projeto onde é desenvolvida uma aplicação que necessita de uma série de dependências e serviços para funcionar. Além de ter que automatizar todo o processo de instalação de bibliotecas, instalação/atualização de pacotes, serviços, deploy e etc, tambem tinha que contar com a possibilidade de futuramente ter que rodar essa mesma aplicação e suas dependências em outros servidores, mantendo sempre tudo atualizado e replicado em _Real Time_ para todos os nós e por ultimo e não menos importante, precisava pensar em uma forma de validar de forma "idempotent" se nessas maquinas ja existiam essas depedências, ou seja, o comando só poderia ser aplicado quando ele realmente necessitar ser aplicado. Explicando de uma forma mais precisa o significado do termo _idempotent_ para nosso cenario, pense que você precisa para instalar um determinado pacote em uma maquina, porem não sabemos se já existe esse pacote instalado e você precisa validar se o pacote existe no host remoto, caso não exista, a tarefa será executada e o pacote será instalado, caso exista, a tarefa não será executada. Depois de pesquisar um pouco e conversar com meus colegas de capitulo, conheci o Ansible que me ajudou bastante com essa questão. Neste artigo falarei um pouco de como é sua estrutura, como instalar o Ansible e como usei ele no meu projeto.
@@ -141,7 +143,11 @@ Podemos executar todas as nossas tarefas necessárias (através de módulos) des
 
 ### Playbook Básico
 
-Os Playbooks podem executar várias Tarefas(TASKS) e fornecer algumas funcionalidades mais avançadas. Segue um exemplo de um playbook com instação do requisitos do Apache LAMP.
+Os Playbooks podem executar várias Tarefas(TASKS) e fornecer algumas funcionalidades mais avançadas. 
+
+![WORKFLOW](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/orchestration.gif
+
+Segue um exemplo de um playbook com instação do requisitos do Apache LAMP.
 
 ![LAMP](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/LAMP.png)
 
@@ -177,9 +183,10 @@ Como vemos acima, ele executou as tarefas com sucesso, porem nada foi alterado p
 
 A sintaxe do comando para execução dos playbooks é:
 
-+ $ ansible-playbook -i inventario playbook
++ $ **ansible-playbook -i inventario playbook**
 
-> ref: [Playbooks](http://docs.ansible.com/ansible/playbooks_intro.html).
+> ref: [Documentação Ansible-Playbooks](http://docs.ansible.com/ansible/playbooks_intro.html).
+
 
 ## Conclusão
 Como vimos, o Ansible é uma ótima solução de provisionamento de ambientes e me ajudou bastante de forma rápida e eficiente. Existe alguns pontos negativos, como a sintaxe exigente e a indentação do seu playbook. No entanto sua lógica é bastante simples. Sua documentacao é bem completa e há muitas opções que poderão te ajudar a construir seus próprios módulos em seus playbooks de acordo com sua necessidade.
