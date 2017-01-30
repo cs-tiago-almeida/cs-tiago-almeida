@@ -19,6 +19,7 @@ A documentação oficial fica em:
 http://docs.ansible.com/ansible/intro_installation.html
 
 ### A estrutura do Ansible
+![alt text](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/orchestration.gif)
 
 + **Inventory:** É um arquivo de inventario onde tera declarado quais os nós ou "hosts-alvos" que serão gerenciados pelo Ansible-Server;
 + **Modules:** Controlam os recursos (serviços, pacotes, arquivos, etc.) do(s) host(s) remoto(s);
@@ -144,8 +145,6 @@ Podemos executar todas as nossas tarefas necessárias (através de módulos) des
 ### Playbook Básico
 
 Os Playbooks podem executar várias Tarefas(TASKS) e fornecer algumas funcionalidades mais avançadas. 
-
-![alt text](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/orchestration.gif)
 
 Segue um exemplo de um playbook com instação do requisitos do Apache LAMP.
 
