@@ -170,9 +170,9 @@ Para executar o playbook execute o comando:
 Dando continuidade ao exemplo anterior, vamos colocar os comandos ad-hoc que executamos para instalar o NGINX dentro de um playbook ordenados em Tasks:
 
 Crie o arquivo nginx.yml com a configuração abaixo:
-
+```
 ![PLAYBOOK](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/playbook.png)
-
+```
 Esta tarefa faz exatamente o mesmo que o nosso comando ad-hoc, no entanto eu escolhi especificar o meu grupo "local" de servidores em vez de "all" ou "webservers". Podemos executar o playbook com o comando ansible-playbook:
 
 ![PLAYBOOK2](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/playbook2.png)
@@ -182,7 +182,7 @@ Como vemos acima, ele executou as tarefas com sucesso, porem nada foi alterado p
 
 A sintaxe do comando para execução dos playbooks é:
 
-+ ```$ **ansible-playbook -i inventario playbook**```
++ $ **ansible-playbook -i inventario playbook**
 > ref: [Documentação Ansible-Playbooks](http://docs.ansible.com/ansible/playbooks_intro.html).
 
 
