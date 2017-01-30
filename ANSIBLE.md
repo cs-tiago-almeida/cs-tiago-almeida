@@ -182,8 +182,7 @@ Como vemos acima, ele executou as tarefas com sucesso, porem nada foi alterado p
 
 A sintaxe do comando para execução dos playbooks é:
 
-+ $ **ansible-playbook -i inventario playbook**
-
++ ```$ **ansible-playbook -i inventario playbook**```
 > ref: [Documentação Ansible-Playbooks](http://docs.ansible.com/ansible/playbooks_intro.html).
 
 
