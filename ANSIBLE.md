@@ -1,3 +1,5 @@
+![index](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/index.png)
+
 # Automação e provisionamento ágil com Ansible
 
 Hoje vou falar um pouco sobre minha experiência com uma ferramenta muito útil de automação, o _Ansible_.
