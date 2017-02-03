@@ -2,9 +2,6 @@
 - hosts: localhost
 
   tasks:
-    - name: print from playbook
-      debug: msg="in ansible/playbook_do_fred.yml as user {{ lookup('env','USER') }}"
-
     - name: install homebrew_taps
       homebrew_tap: tap={{item}} state=present
       with_items:
