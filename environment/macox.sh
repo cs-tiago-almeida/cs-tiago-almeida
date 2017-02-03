@@ -50,7 +50,7 @@ fi
 ## Install Wget
 if ! command_exists wget -V; then
   echo "[ Wget ] not found. Starting Setup."
-  brew install redis
+  brew install wget
   echo "Done"
 fi
 
