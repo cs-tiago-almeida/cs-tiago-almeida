@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# exec: curl -sSL https://github.com/cs-tiago-almeida/cs-codes/blob/development/environment/macox.sh | bash
+# exec: curl -sSL https://raw.githubusercontent.com/cs-tiago-almeida/cs-codes/development/environment/macox.sh | sh
 #
 
 figlet "Install OSX Deps with Ansible"
