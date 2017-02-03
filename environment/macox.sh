@@ -47,6 +47,13 @@ if ! command_exists xcode-select -p; then
   sudo xcodebuild -license accept
 fi
 
+## Install Wget
+if ! command_exists wget -V; then
+  echo "[ Wget ] not found. Starting Setup."
+  brew install redis
+  echo "Done"
+fi
+
 ## Install Ansible
 if ! command_exists ansible --version; then
   sudo easy_install pip
