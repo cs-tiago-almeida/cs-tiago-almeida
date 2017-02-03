@@ -1,0 +1,77 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: print from playbook
+      debug: msg="in ansible/playbook_do_fred.yml as user {{ lookup('env','USER') }}"
+
+    - name: install homebrew_taps
+      homebrew_tap: tap={{item}} state=present
+      with_items:
+          - homebrew/dupes
+          - caskroom/cask
+          - homebrew/core
+
+    - name: install apps from homebrew
+      sudo: false
+      homebrew: name={{item}} state=present update_homebrew=yes
+      with_items:
+          - coreutils
+          - git
+          - maven
+          - dos2unix
+          - wget
+          - npm
+          - node
+          - rbenv
+          - ruby
+          - brew-cask-completion
+          - openssl
+          - curl
+          - nodejs
+          - autoconf
+          - rbenv
+          - ruby
+          - pkg-config
+          - docker
+          - boot2docker
+          - ruby-build
+          - ios-deploy
+          - cocoapods
+          - calabash
+
+    # requires node/npm from above
+    - name: install node
+      homebrew: name=node state=latest
+
+    - name: install npm
+      homebrew: name=npm state=latest
+
+    - name: install gems
+      gem: name={{item}} state=latest
+      with_items:
+          - brewbygems
+          - bundler
+
+    - name: Install RVM
+      shell: curl -L https://get.rvm.io | bash -s stable --auto-dotfiles --autolibs=enable --ruby
+
+    - name: Load RVM function' >> ~/.bashrc
+      shell: . "$HOME/.rvm/scripts/rvm" >> ~/.bashrc
+
+    - name: print from playbook
+      homebrew_cask:
+        name: "{{item}}"
+        state: present
+      with_items:
+      - atom
+      - iterm2
+      - java
+      - vagrant
+      - virtualbox
+      - postman
+      - java
+      - android-studio
+      - sublime-text
+      - slack
+      - genymotion
