@@ -15,8 +15,6 @@
       with_items:
           - coreutils
           - git
-          - maven
-          - dos2unix
           - wget
           - npm
           - node
@@ -64,6 +62,7 @@
       - atom
       - iterm2
       - java
+      - maven
       - vagrant
       - virtualbox
       - postman
