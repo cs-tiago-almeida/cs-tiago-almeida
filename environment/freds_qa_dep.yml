@@ -7,6 +7,7 @@
       with_items:
           - homebrew/dupes
           - caskroom/cask
+          - caskroom/versions
           - homebrew/core
 
     - name: install apps from homebrew
@@ -60,13 +61,15 @@
         state: present
       with_items:
       - atom
+      - google-chrome
+      - firefox
       - iterm2
       - java
-      - maven
       - vagrant
       - virtualbox
       - postman
       - java
+      - java7
       - android-studio
       - sublime-text
       - slack
