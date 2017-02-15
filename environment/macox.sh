@@ -72,13 +72,6 @@ else
     mkdir ~/ansible
 fi
 
-if [[ -f ~/ansible/localhost ]]; then
-    echo "Directory $HOME/ansible/localhost exists."
-else
-    echo "[Create Ansible Inventory]"
-    touch ~/ansible/localhost && echo 'localhost' > ~/ansible/localhost
-fi
-
 cd ~/ansible/
 echo "[Download Fred's_playbook]"
 wget https://raw.githubusercontent.com/cs-tiago-almeida/cs-codes/development/environment/freds_qa_dep.yml && ansible-playbook -i ~/ansible/localhost freds_qa_dep.yml -vv
