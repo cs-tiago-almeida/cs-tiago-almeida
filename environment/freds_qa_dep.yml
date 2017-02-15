@@ -71,6 +71,9 @@
       - java
       - java7
       - android-studio
-      - sublime-text
+      - sublime-text2
       - slack
       - genymotion
+      
+    - name: Cleanup
+      shell: brew cleanup && brew cask cleanup 
