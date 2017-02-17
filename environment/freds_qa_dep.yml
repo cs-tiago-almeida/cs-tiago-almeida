@@ -17,8 +17,6 @@
           - coreutils
           - git
           - wget
-          - npm
-          - node
           - rbenv
           - ruby
           - brew-cask-completion
@@ -26,8 +24,6 @@
           - curl
           - nodejs
           - autoconf
-          - rbenv
-          - ruby
           - pkg-config
           - docker
           - boot2docker
