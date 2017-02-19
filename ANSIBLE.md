@@ -99,6 +99,7 @@ Em seguida, copie sua chave pública para os servidores com o comando **ssh-copy
 
 ### Executando comandos
 **Comandos Ad-Hoc**
+
 Assim que tiver um inventário configurado, podemos começar a executar Tarefas nos os servidores definidos.
 
 O Ansible assumirá que você tem acesso SSH disponível para seus servidores, normalmente baseado em SSH-Key. Como o Ansible usa SSH, o servidor em que ele está instalado precisa de acesso via SSH aos servidores do inventário.
