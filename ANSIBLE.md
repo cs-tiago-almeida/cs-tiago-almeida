@@ -60,6 +60,7 @@ Neste exemplo, eu usei duas maquinas virtuais com Sistema Operacional Ubuntu16.0
 
 ### Gerenciando Servidores
 **O invetário**
+
 O arquivo de hosts de inventário do Ansible é usado para listar e agrupar seus servidores. Sua localização default é /etc/ansible/hosts.
 
 Eu costumo fazer um backup do arquivo default para usa-lo como referência mais tarde:
