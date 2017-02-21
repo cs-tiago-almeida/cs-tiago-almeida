@@ -45,9 +45,6 @@
           - brewbygems
           - bundler
 
-    - name: Install RVM
-      shell: curl -L https://get.rvm.io | bash -s stable --auto-dotfiles --autolibs=enable --ruby
-
     - name: Load RVM function' >> ~/.bashrc
       shell: . "$HOME/.rvm/scripts/rvm" >> ~/.bashrc
 
