@@ -27,7 +27,7 @@
      chdir=/opt
 
   - name: Set envs for android sdk
-    shell: 'echo "export PATH=/tmp/android-sdk-linux/tools:${PATH}" >> $HOME/.bash_profile'
+    shell: 'echo "export PATH=/opt/android-sdk-linux/tools:${PATH}" >> $HOME/.bash_profile'
 
   - name: Install Android SDKs
     shell: echo y | android update sdk -u -a -t "{{ item }}"
