@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+
+  tasks:
+  - name: Download WAR to server
+    command: wget https://github.com/cs-tiago-almeida/cs-codes/blob/development/hello-world.war -P /tmp
+
+  - name: Unzip WAR file
+    file: src=/tmp/hello-world.war dest=/usr/local/opt/tomcat7/libexec/webapps/ mode=0755 owner=tiagoalmeida group=admin
+    notify:
+        - restart tomcat7
+
+  handlers:
+    - name: Restart tomcat7
+      service: name=tomcat7 state=restarted

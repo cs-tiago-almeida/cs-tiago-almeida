@@ -1,0 +1,35 @@
+###################################################################################################################
+##  Inventory                                                                                                    ##
+
+##  ansible_host - O nome do host para se conectar, caso seja diferent do alias que você deseja dar a ele.       ##
+##                                                                                                               ##
+##  ansible_port - O número da porta ssh, se não 22                                                              ##
+##                                                                                                               ##
+##  ansible_user - O nome de usuário ssh padrão a ser usado.                                                     ##
+##                                                                                                               ##
+##  ansible_ssh_pass - A senha ssh para usar (INSEGURO!!, é altamente recomendável usar --ask-pass ou chave SSH) ##
+##                                                                                                               ##
+##  ansible_ssh_private_key_ le - Chave particular usada pelo ssh. Útil se usar várias chaves e você não quiser  ##
+##  usar o agente SSH.                                                                                           ##
+##                                                                                                               ##
+###################################################################################################################
+
+[localhost]
+localhost
+
+[webservers]
+127.0.0.1 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant ansible_port=2222
+
+[appserver]
+127.0.0.[0:9]
+
+[nodeserver]
+node[0:9]
+
+[nodeserver:vars]
+ansible_ssh_host=192.168.0.3
+ansible_user=ubuntu
+
+[web:children]
+appserver
+nodeserver

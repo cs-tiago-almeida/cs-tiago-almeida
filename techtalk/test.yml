@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: install homebrew_taps
+      homebrew_tap: tap={{item}} state=present
+      with_items:
+          - homebrew/dupes
+          - caskroom/cask
+          - caskroom/versions
+          - homebrew/core
+
+    - name: install apps from homebrew
+      sudo: false
+      homebrew: name={{item}} state=present update_homebrew=yes
+      ignore_errors: yes
+      with_items:
+          - sublime-text2

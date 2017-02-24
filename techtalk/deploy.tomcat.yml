@@ -1,6 +1,7 @@
 ---
-- hosts:
-  sudo: true
+- hosts: webservers
+  become: true
+  remote_user: vagrant
   tasks:
 
     - name: Install Tomcat 7
@@ -16,30 +17,11 @@
     - name: Set JRE path
       set_fact: jre_7_path="{{jre_7_ls.stdout}}"
 
+    - name: Unzip WAR file
+      copy: src=/tmp/hello-world-war-1.0.0.war dest=/var/lib/tomcat7/webapps/ mode=0755 owner=tomcat7 group=tomcat7
 
-    - name: Use OpenJDK 7 JRE
-      lineinfile: >
-        dest=/etc/default/tomcat7
-        insertafter='^#JAVA_HOME'
-        line='JAVA_HOME={{jre_7_path}}'
-        state=present
-        backup=yes
-      notify: Restart Tomcat
+    - name: xml file
+      copy: src=/tmp/hello-world.xml dest=/var/lib/tomcat7/conf/Catalina/localhost/ mode=0755 owner=tomcat7 group=tomcat7
 
-  handlers:
-
-    - name: Restart Tomcat
-      service: name=tomcat7 state=restarted
-
-
-  - name: Download WAR to server
-    command: wget https://github.com/cs-tiago-almeida/cs-codes/blob/development/hello-world.war -P /tmp
-
-  - name: Unzip WAR file
-    copy: src=/tmp/hello-world.war dest=/usr/local/opt/tomcat7/libexec/webapps/ mode=0755 owner=vagrant group=admin
-    notify:
-        - restart tomcat7
-
-  handlers:
     - name: Restart tomcat7
       service: name=tomcat7 state=restarted

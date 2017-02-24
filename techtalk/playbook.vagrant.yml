@@ -1,0 +1,8 @@
+---
+- name: vagrant_project
+  hosts: all
+  remote_user: vagrant_project
+  sudo: true
+  roles:
+    - mongo
+    - node

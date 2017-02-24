@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Instalar nginx
+      homebrew: name=nginx state=installed update_homebrew=yes
+      notify:
+        - Start nginx
+
+  handlers:
+    - name: Start nginx
+      service: name=nginx state=started
