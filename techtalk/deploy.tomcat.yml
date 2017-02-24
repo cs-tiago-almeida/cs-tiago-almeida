@@ -1,0 +1,45 @@
+---
+- hosts:
+  sudo: true
+  tasks:
+
+    - name: Install Tomcat 7
+      apt: 'pkg={{item}} state=present'
+      with_items:
+        - openjdk-7-jre-headless
+        - tomcat7
+
+    - name: Get JRE path
+      shell: ls -d /usr/lib/jvm/java-7* | tail -1
+      register: jre_7_ls
+
+    - name: Set JRE path
+      set_fact: jre_7_path="{{jre_7_ls.stdout}}"
+
+
+    - name: Use OpenJDK 7 JRE
+      lineinfile: >
+        dest=/etc/default/tomcat7
+        insertafter='^#JAVA_HOME'
+        line='JAVA_HOME={{jre_7_path}}'
+        state=present
+        backup=yes
+      notify: Restart Tomcat
+
+  handlers:
+
+    - name: Restart Tomcat
+      service: name=tomcat7 state=restarted
+
+
+  - name: Download WAR to server
+    command: wget https://github.com/cs-tiago-almeida/cs-codes/blob/development/hello-world.war -P /tmp
+
+  - name: Unzip WAR file
+    copy: src=/tmp/hello-world.war dest=/usr/local/opt/tomcat7/libexec/webapps/ mode=0755 owner=vagrant group=admin
+    notify:
+        - restart tomcat7
+
+  handlers:
+    - name: Restart tomcat7
+      service: name=tomcat7 state=restarted

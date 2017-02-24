@@ -1,0 +1,11 @@
+---
+- hosts: all
+  tasks:
+    - name: Atualizando o sistema operacional
+      yum: name=* state=latest
+
+    - name: Instalando a versão mais atual do apache
+      yum: name=httpd state=latest
+
+    - name: Garantindo que o apache está rodando
+      service: name=httpd enabled=yes state=running
