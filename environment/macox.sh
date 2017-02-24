@@ -74,7 +74,7 @@ fi
 
 cd ~/ansible/
 echo "[Download Fred's_playbook]"
-wget https://raw.githubusercontent.com/cs-tiago-almeida/cs-codes/development/environment/freds_qa_dep.yml && ansible-playbook -i ~/ansible/localhost freds_qa_dep.yml -vv
+wget https://raw.githubusercontent.com/cs-tiago-almeida/cs-codes/development/environment/freds_qa_dep.yml && ansible-playbook freds_qa_dep.yml -vvvv
 
 echo
 echo "Successfully"
