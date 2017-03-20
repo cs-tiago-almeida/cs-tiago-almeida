@@ -101,9 +101,9 @@ Em seguida, copie sua chave pública para os servidores com o comando **ssh-copy
 ### Executando comandos
 **Comandos Ad-Hoc**
 
-Assim que tiver um inventário configurado, podemos começar a executar Tarefas nos os servidores definidos.
+Assim que tiver um inventário configurado, podemos começar a executar Tarefas nos servidores definidos.
 
-O Ansible assumirá que você tem acesso SSH disponível para seus servidores, normalmente baseado em SSH-Key. Como o Ansible usa SSH, o servidor em que ele está instalado precisa de acesso via SSH aos servidores do inventário.
+O Ansible assumirá que você tem acesso SSH disponível para seus servidores, normalmente baseado em SSH-Key. Como o Ansible usa SSH, o servidor em que ele está instalado precisa de acesso aos servidores do inventário.
 
 ![ping_ansible](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/ping_ansible.png)
 
@@ -118,8 +118,7 @@ Onde:
 + **m ping** - Use o módulo "ping", que simplesmente executa o comando ping e retorna os resultados
 + **s** - Use "sudo" para executar os comandos
 + **k** - Solicitar uma senha em vez de usar a autenticação baseada em chave
-+ **u <user>** - Log em servidores usando usuário testcloud
-
++ **u <user>** - Utilizar outro usuário
 ### Modules
 
 Ansible usa "módulos" para realizar a maioria de suas tarefas. Os módulos podem fazer coisas como instalar software, copiar arquivos, usar modelos e etc.
@@ -128,7 +127,7 @@ Ansible usa "módulos" para realizar a maioria de suas tarefas. Os módulos pode
 
 Nota: Perceba que eu usei o rotulo "local" para limitar a ação somente em minha maquina.
 
-Acima, o comando **sudo apt-get install nginx** foi executado usando o módulo "shell". O sinalizador **-a** é usado para transmitir argumentos para o módulo. Eu uso **-s** para executar este comando usando sudo. Se usarmos um módulo mais apropriado, podemos executar comandos com uma garantia do resultado. Os módulos Ansible asseguram indempotência, ou seja, poderemos executar as mesmas tarefas sem afetar o resultado final.
+Acima, o comando **sudo apt-get install nginx** foi executado usando o módulo "shell". O sinalizador **-a** é usado para transmitir argumentos para o módulo. Eu uso **-s** para executar este comando usando sudo. Se usarmos um módulo mais apropriado, podemos executar comandos com uma garantia do resultado. Os módulos Ansible asseguram idempotência, ou seja, poderemos executar as mesmas tarefas sem afetar o resultado final.
 
 + ```ansible local -m apt -a 'name=nginx state=installed' --ask-sudo```
 
@@ -139,16 +138,16 @@ Ele fara uso do módulo **apt** para instalar o Nginx (se não estiver instalado
 + **All** - Executar em todos os hosts definidos a partir do arquivo de inventário
 + **s** - Executar usando o sudo
 + **m apt** - Use o módulo apt
-+ **a 'name=nginx state=instalado'** - Fornece os argumentos para o módulo dnf, incluindo o nome do pacote e o estado final desejado.
++ **a 'name=nginx state=instalado'** - Fornece os argumentos para o módulo **apt**, incluindo o nome do pacote e o estado final desejado.
 + **--ask-sudo** - pede senha de sudo
 
-Podemos executar todas as nossas tarefas necessárias (através de módulos) desta forma ad-hoc, mas vamos tornar isso mais gerenciável. Vamos mover essa tarefa para um Playbook, que pode executar e coordenar várias tarefas ao mesmo tempo.
+Podemos executar todas as nossas tarefas necessárias(através de módulos) da forma ad-hoc, mas vamos tornar isso mais gerenciável. Vamos mover tudo isso para um Playbook, assim ele vai executar e coordenar várias tarefas ao mesmo tempo.
 
 ### Playbook Básico
 
 Os Playbooks podem executar várias Tarefas(TASKS) e fornecer algumas funcionalidades mais avançadas. 
 
-Segue um exemplo de um playbook com instação do requisitos do Apache LAMP.
+Segue o exemplo de um playbook onde executo a instalação dos requisitos do Apache LAMP.
 
 ![LAMP](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/LAMP.png)
 
@@ -164,12 +163,12 @@ Se você precisar executar a tarefa com usuário diferentes, especifique da segu
 Executar com **sudo**:
 ![groups3](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/groups3.png)
 
-As tarefas do playbook serão executadas em todos os nós declarados no grupo **webservers** dentro do arquivo de invetanrio.
+As tarefas do playbook serão executadas em todos os nós declarados no grupo **webservers** dentro do arquivo de inventário.
 
 Para executar o playbook execute o comando:
 ![webserver](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/webserver.png)
 
-Dando continuidade ao exemplo anterior, vamos colocar os comandos ad-hoc que executamos para instalar o NGINX dentro de um playbook ordenados em Tasks:
+Dando continuidade ao exemplo anterior, irei colocar os comandos ad-hoc que executamos para instalar o NGINX dentro de um playbook ordenados em Tasks:
 
 Crie o arquivo nginx.yml com a configuração abaixo:
 ![PLAYBOOK](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/playbook.png)
@@ -189,4 +188,4 @@ A sintaxe do comando para execução dos playbooks é:
 
 
 ## Conclusão
-Como vimos, o Ansible é uma ótima solução de provisionamento de ambientes e me ajudou bastante de forma rápida e eficiente. Existe alguns pontos negativos, como a sintaxe exigente e a indentação do seu playbook, no entanto sua lógica é bastante simples, sua documentacao é bem completa e há muitas opções que poderão te ajudar a construir seus próprios módulos em seus playbooks de acordo com sua necessidade.
+Como vimos, o Ansible é uma ótima ferramenta de provisionamento de ambientes e me ajudou bastante de forma rápida e eficiente. Existe alguns pontos negativos, como a sintaxe exigente e a indentação do seu playbook, no entanto sua lógica é bastante simples, sua documentacao é bem completa e há muitas opções que poderão te ajudar a construir seus próprios módulos em seus playbooks de acordo com sua necessidade.
