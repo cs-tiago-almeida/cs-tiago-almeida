@@ -72,7 +72,7 @@ Caso queira ter seu arquivo de hosts Ansible em outro local particular, você po
 + ```export ANSIBLE_HOSTS=/root/ansible_hosts```
 
 Ou pode especificar o local de hosts Ansible ao executar comandos com a flag --inventory-file = (ou -i):
-+ ```ansible all --inventory-file=/root/ansible_hosts -m ping```
++ ```ansible all --inventory-file=/root/ansible_hosts```
 
 Aqui vamos definir os dois servidores sob o rótulo "webservers" e um com "local" para testes locais:
 
