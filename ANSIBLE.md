@@ -121,7 +121,7 @@ Onde:
 + **u <user>** - Utilizar outro usuário
 ### Modules
 
-Ansible usa "módulos" para realizar a maioria de suas tarefas. Os módulos podem fazer coisas como instalar software, copiar arquivos, usar modelos e etc.
+Ansible usa "módulos" para realizar a maioria de suas tarefas. Os módulos podem te auxíliar em tarefascomo instalar softwares, atualizar pacotes, copiar arquivos e etc.
 
 + ```ansible local -s -m apt -a 'name=nginx'```
 
