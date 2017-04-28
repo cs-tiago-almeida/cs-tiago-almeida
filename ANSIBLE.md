@@ -127,7 +127,7 @@ Ansible usa "módulos" para realizar a maioria de suas tarefas. Os módulos pode
 
 Nota: Perceba que eu usei o rotulo "local" para limitar a ação somente em minha maquina.
 
-Acima, o comando **sudo apt-get install nginx** foi executado usando o módulo "shell". O sinalizador **-a** é usado para transmitir argumentos para o módulo. Eu uso **-s** para executar este comando usando sudo. Se usarmos um módulo mais apropriado, podemos executar comandos com uma garantia do resultado. Os módulos Ansible asseguram idempotência, ou seja, poderemos executar as mesmas tarefas sem afetar o resultado final.
+Acima, o comando **sudo apt-get install nginx** foi executado usando o módulo "apt". O sinalizador **-a** é usado para transmitir argumentos para o módulo. Eu uso **-s** para executar este comando usando sudo. Se usarmos um módulo mais apropriado, podemos executar comandos com uma garantia do resultado. Os módulos Ansible asseguram idempotência, ou seja, poderemos executar as mesmas tarefas sem afetar o resultado final.
 
 + ```ansible local -m apt -a 'name=nginx state=installed' --ask-sudo```
 
