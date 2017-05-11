@@ -200,7 +200,7 @@ Executar com **sudo**:
 ```
 ---
 - hosts: webserver
-  remote_user: root
+  remote_user: yourname
   sudo: yes
 ```
 As tarefas do playbook serão executadas em todos os nós declarados no grupo **webservers** dentro do arquivo de inventário.
