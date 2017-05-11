@@ -182,13 +182,13 @@ Na segunda tarefa, ele executa o comando que habilita o module **rewrite** do Ap
 Para cada tarefa, você pode especificar o grupo-alvo de nós e o usuário remoto para executar a operação.
 ```
 ---
-- hosts: webservers
+- hosts: webserver
   remote_user: root
 ```
 Se você precisar executar a tarefa com usuário diferentes, especifique da seguinte forma:
 ```
 ---
-- hosts: webservers
+- hosts: webserver
   remote_user: root
   tasks:
     - name: test connection
@@ -199,8 +199,8 @@ Se você precisar executar a tarefa com usuário diferentes, especifique da segu
 Executar com **sudo**:
 ```
 ---
-- hosts: webservers
-  remote_user: yourname
+- hosts: webserver
+  remote_user: root
   sudo: yes
 ```
 As tarefas do playbook serão executadas em todos os nós declarados no grupo **webservers** dentro do arquivo de inventário.
