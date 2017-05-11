@@ -64,39 +64,58 @@ Neste exemplo, eu usei duas maquinas virtuais com Sistema Operacional Ubuntu16.0
 O arquivo de hosts de inventário do Ansible é usado para listar e agrupar seus servidores. Sua localização default é /etc/ansible/hosts.
 
 Eu costumo fazer um backup do arquivo default para usa-lo como referência mais tarde:
-+ ```sudo mv /etc/ansible/hosts /etc/ansible/hosts.orig```
+```
+sudo mv /etc/ansible/hosts /etc/ansible/hosts.orig
+```
 
 Depois de mover o arquivo de inventário de exemplo, crie um novo arquivo /etc/ansible/hosts e defina os servidores a serem gerenciados.
 
 Caso queira ter seu arquivo de hosts Ansible em outro local particular, você pode definir esta variável de ambiente:
-+ ```export ANSIBLE_HOSTS=/root/ansible_hosts```
+```
+export ANSIBLE_HOSTS=/root/ansible_hosts
+```
 
 Ou pode especificar o local de hosts Ansible ao executar comandos com a flag --inventory-file = (ou -i):
-+ ```ansible all --inventory-file=/root/ansible_hosts```
+```
+ansible all --inventory-file=/root/ansible_hosts
+```
 
 Aqui vamos definir os dois servidores sob o rótulo "webservers" e um com "local" para testes locais:
 
-![inventory](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/inventory.png)
+```
+[webservers]
+10.9.1.22
+10.200.4.20
 
+[local]
+127.0.0.1
+```
 
 ### Conectando nos Servidores
 Para conectar ao seus servidores sem ter que digitar uma senha ou caso você ainda não tiver autenticação via chave ssh configurada para seus nós filhos, gere a chave no nó master:
 
-![keygen](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/keygen.png)
+```
+ssh-keygen
+```
 
 Apos o termino das confirmações, teremos 2 arquivos:
 
-+ ~/.ssh/id_rsa
-+ ~/.ssh/id_rsa.pub
+```
+~/.ssh/id_rsa
+~/.ssh/id_rsa.pub
+```
 
 Em seguida, copie sua chave pública para os servidores com o comando **ssh-copy-id**:
 
-+ ```$ ssh-copy-id -i ~/.ssh/id_rsa.pub <user>@<host>```
+```
+ssh-copy-id -i ~/.ssh/id_rsa.pub <USER>@<HOST>
+```
 
-![ssh-copy](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/ssh-copy.png)
+```
+ssh-copy-id -i ~/.ssh/id_rsa.pub root@10.9.1.22
+```
 
-
-> ref: [Post-Install Setup](https://valdhaus.co/writings/ansible-post-install/)
+> referência: [Post-Install Setup](https://valdhaus.co/writings/ansible-post-install/)
 
 ### Executando comandos
 **Comandos Ad-Hoc**
@@ -110,7 +129,9 @@ O Ansible assumirá que você tem acesso SSH disponível para seus servidores, n
 A saída que temos do Ansible é JSON que nos diz se a Tarefa fez alguma alteração e o seu resultado.
 Se precisamos definir o usuário e talvez algumas outras configurações para se conectar ao nosso servidor, podemos fazer uso das seguintes FLAGS
 
-+ ```$ ansible all -m ping -k -u <user>```
+```
+ansible all -m ping -k -u <user>
+```
 
 Onde:
 
@@ -123,13 +144,17 @@ Onde:
 
 Ansible usa "módulos" para realizar a maioria de suas tarefas. Os módulos podem te auxíliar em tarefascomo instalar softwares, atualizar pacotes, copiar arquivos e etc.
 
-+ ```ansible local -s -m apt -a 'name=nginx'```
+```
+ansible local -s -m apt -a 'name=nginx'
+```
 
 Nota: Perceba que eu usei o rotulo "local" para limitar a ação somente em minha maquina.
 
 Acima, o comando **sudo apt-get install nginx** foi executado usando o módulo "apt". O sinalizador **-a** é usado para transmitir argumentos para o módulo. Eu uso **-s** para executar este comando usando sudo. Se usarmos um módulo mais apropriado, podemos executar comandos com uma garantia do resultado. Os módulos Ansible asseguram idempotência, ou seja, poderemos executar as mesmas tarefas sem afetar o resultado final.
 
-+ ```ansible local -m apt -a 'name=nginx state=installed' --ask-sudo```
+```
+ansible local -m apt -a 'name=nginx state=installed' --ask-sudo
+```
 
 Ele fara uso do módulo **apt** para instalar o Nginx (se não estiver instalado). O resultado da execução da Tarefa foi "changed": false. Isso mostra que não houve mudanças pois eu já havia instalado o Nginx nesta maquina. Posso executar este comando repetidamente sem me preocupar com ele afetando o resultado desejado.
 
@@ -155,24 +180,46 @@ Perceba que neste playbook, a primeira tarefa declarada foi instalar o php5, apa
 Na segunda tarefa, ele executa o comando que habilita o module **rewrite** do Apache e por ultimo reinicia o serviço Apache. Rá!!
 
 Para cada tarefa, você pode especificar o grupo-alvo de nós e o usuário remoto para executar a operação.
-![groups1](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/groups1.png)
-
+```
+---
+- hosts: webservers
+  remote_user: root
+```
 Se você precisar executar a tarefa com usuário diferentes, especifique da seguinte forma:
-![groups2](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/groups2.png)
+```
+---
+- hosts: webservers
+  remote_user: root
+  tasks:
+    - name: test connection
+      ping:
+      remote_user: yourname
+```
 
 Executar com **sudo**:
-![groups3](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/groups3.png)
-
+```
+---
+- hosts: webservers
+  remote_user: yourname
+  sudo: yes
+```
 As tarefas do playbook serão executadas em todos os nós declarados no grupo **webservers** dentro do arquivo de inventário.
 
 Para executar o playbook execute o comando:
-![webserver](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/webserver.png)
+```
+$ ansible-playbook webserver.yml
+```
 
 Dando continuidade ao exemplo anterior, irei colocar os comandos ad-hoc que executamos para instalar o NGINX dentro de um playbook ordenados em Tasks:
 
 Crie o arquivo nginx.yml com a configuração abaixo:
-![PLAYBOOK](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/playbook.png)
-
+```
+---
+- hosts: local
+  tasks:
+    - name: Install Nginx
+      apt: name=nginx state=installed
+```
 Esta tarefa faz exatamente o mesmo que o nosso comando ad-hoc, no entanto eu escolhi especificar o meu grupo "local" de servidores em vez de "all" ou "webservers". Podemos executar o playbook com o comando ansible-playbook:
 
 ![PLAYBOOK2](https://github.com/cs-tiago-almeida/cs-codes/blob/development/img/playbook2.png)
@@ -181,11 +228,11 @@ Eu costumo adicionar -vvv para visualizar com mais detalhes a execução das tar
 Como vemos acima, ele executou as tarefas com sucesso, porem nada foi alterado pois eu já tenho o Nginx instalado.
 
 A sintaxe do comando para execução dos playbooks é:
+```
+ansible-playbook -i inventario playbook
+```
 
-+ ```$ ansible-playbook -i inventario playbook```
-
-> ref: [Documentação Ansible-Playbooks](http://docs.ansible.com/ansible/playbooks_intro.html).
-
+> referência: [Documentação Ansible-Playbooks](http://docs.ansible.com/ansible/playbooks_intro.html).
 
 ## Conclusão
 Como vimos, o Ansible é uma ótima ferramenta de provisionamento de ambientes e me ajudou bastante de forma rápida e eficiente. Existe alguns pontos negativos, como a sintaxe exigente e a indentação do seu playbook, no entanto sua lógica é bastante simples, sua documentacao é bem completa e há muitas opções que poderão te ajudar a construir seus próprios módulos em seus playbooks de acordo com sua necessidade.
