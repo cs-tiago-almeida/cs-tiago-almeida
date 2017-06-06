@@ -45,9 +45,6 @@
           - brewbygems
           - bundler
 
-    - name: Load RVM function' >> ~/.bashrc
-      shell: . "$HOME/.rvm/scripts/rvm" >> ~/.bashrc
-
     - name: print from playbook
       homebrew_cask:
         name: "{{item}}"
