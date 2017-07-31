@@ -1,0 +1,45 @@
+---
+- name: Teste se xcode foi exportado anteriormente.
+  stat: path=/Users/{{ ansible_ssh_user }}/{{ xcode_dmg }}
+  register: xcode_dl_path
+
+- name: Encaminhar xcode compactado para o(s) alvo(s).
+  copy: src={{ xcode_dmg }} dest=/Users/{{ ansible_ssh_user }}
+  when: xcode_dl_path.stat.exists == False
+
+- name: montar xcode dmg.
+  command: hdiutil attach /Users/{{ ansible_ssh_user }}/{{ xcode_dmg }}
+  args:
+    creates: /Volumes/Xcode/
+
+- name: instalar xcode.
+  command: cp -a /Volumes/Xcode/Xcode.app /Applications/
+  args:
+    creates: /Applications/Xcode.app/
+
+- name: desmontar xcode dmg.
+  command: hdiutil detach /Volumes/Xcode
+  args:
+    removes: /Volumes/Xcode/
+
+- name: aceitar licença.
+  command: /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -license accept
+  become: yes
+  become_method: sudo
+
+- name: Instalar componentes adicionais.
+  command: installer -pkg /Applications/Xcode.app/Contents/Resources/Packages/MobileDeviceDevelopment.pkg -target /
+  become: yes
+  become_method: sudo
+
+- name: Checar status do mdo de desenvolvedor.
+  command: DevToolsSecurity -status
+  become: yes
+  become_method: sudo
+  register: dev_tools_security_status
+
+- name: Habilitar modo de desenvolvedor.
+  command: DevToolsSecurity -enable
+  become: yes
+  become_method: sudo
+  when: "'disabled' in dev_tools_security_status.stdout"

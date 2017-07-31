@@ -1,0 +1,5 @@
+---
+- hosts: itau
+  remote_user: tiagoalmeida
+  roles:
+    - ansible-role-xcode

@@ -1,0 +1,54 @@
+---
+# Checar se há incompatibilidade com RVM.
+- name: Verifique se a existência do rvm-rvm não é compatível com rbenv.
+  command: "whereis -b rvm"
+  register: rvm_status
+  failed_when: rvm_status.stdout.find("/") != -1
+
+# Clonar rbenv do repo.
+- name: Clone o repository para cada usuario.
+  git:
+    repo: "https://github.com/rbenv/rbenv.git"
+    dest: "{{ rbenv_users_home_path_prefix }}/{{ item.user }}/.rbenv"
+    update: "yes"
+    accept_hostkey: "yes"
+  with_items: "{{ rbenv_users }}"
+
+# Compile a extencao bash dinamica para acelerar o rbenv.
+- name: Configure a extencao bash dinamica rbenv para cada usuario.
+  command: "chdir={{ rbenv_users_home_path_prefix }}/{{ item.user }}/.rbenv src/configure"
+  with_items: "{{ rbenv_users }}"
+  when: use_rbenv_extension
+
+- name: Compile a extencao bash dinamica para acelerar o rbenv para cada usuário.
+  command: "chdir={{ rbenv_users_home_path_prefix }}/{{ item.user }}/.rbenv make -C src"
+  with_items: "{{ rbenv_users }}"
+  when: use_rbenv_extension
+
+- name: Adicione o caminho do binario rbenv para o $PATH.
+  lineinfile:
+    dest: "{{ rbenv_users_home_path_prefix }}/{{ item.user }}/{{ rbenv_profile_file }}"
+    line: "{{ rbenv_export_line }}"
+  with_items: "{{ rbenv_users }}"
+
+- name: Load rbenv
+  shell: source ~/.bash_profile
+
+# Install ruby-build if required.
+- name: Clone o ruby-build para cada usuário.
+  git:
+    repo: "https://github.com/rbenv/ruby-build.git"
+    dest: "{{ rbenv_users_home_path_prefix }}/{{ item.user }}/.rbenv/plugins/ruby-build"
+    update: "yes"
+    accept_hostkey: "yes"
+  with_items: "{{ rbenv_users }}"
+  when: install_ruby_build
+
+# Certifique-se de que os arquivos tenham as permissões corretas.
+- name: Set permissions on newly cloned rbenv repos and contents.
+  file:
+    path: "{{ rbenv_users_home_path_prefix }}/{{ item.user }}/.rbenv"
+    owner: "{{ item.user }}"
+    group: "{{ item.group }}"
+    recurse: "yes"
+  with_items: "{{ rbenv_users }}"

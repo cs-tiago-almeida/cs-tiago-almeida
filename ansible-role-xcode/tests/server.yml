@@ -1,0 +1,5 @@
+- hosts: bananinha
+  roles:
+     - role: ansible-role-xcode
+       xcode_version: 8
+       xcode_src: Xcode8.3.3.xip

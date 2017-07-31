@@ -1,0 +1,43 @@
+---
+- name: Teste se xcode foi exportado anteriormente.
+  stat: path=/Users/{{ ansible_ssh_user }}/{{ xcode_src }}
+  register: xcode_dl_path
+
+- name: Encaminhar xcode compactado para o(s) alvo(s).
+  copy: src={{ xcode_src }} dest=/Users/{{ ansible_ssh_user }}
+  when: xcode_dl_path.stat.exists == False
+
+- name: Verifique se o arquivo xcode é válido
+  command: "pkgutil --check-signature {{ xcode_src }} | grep \"Status: signed Apple Software\""
+
+- name: Extraia o arquivo xcode no lugar.
+  extract_xip:
+    src: "/Users/{{ ansible_ssh_user }}/{{ xcode_src }}"
+    dest: "/Applications"
+  become: yes
+
+- name: Aceitar contrato de licença.
+  command: /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -license accept
+  become: yes
+  become_method: sudo
+
+- name: Instale componentes adicionais xcode.
+  command: installer -pkg /Applications/Xcode.app/Contents/Resources/Packages/XcodeSystemResources.pkg -target /
+  become: yes
+
+- name: Instalar pacote de desenvolvimento de dispositivos móveis.
+  command: installer -pkg /Applications/Xcode.app/Contents/Resources/Packages/MobileDeviceDevelopment.pkg -target /
+  become: yes
+  become_method: sudo
+
+- name: Verifique o status do modo de desenvolvedor.
+  command: DevToolsSecurity -status
+  become: yes
+  become_method: sudo
+  register: dev_tools_security_status
+
+- name: Ativar o modo de desenvolvedor.
+  command: DevToolsSecurity -enable
+  become: yes
+  become_method: sudo
+  when: "'disabled' in dev_tools_security_status.stdout"

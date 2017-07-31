@@ -1,0 +1,26 @@
+---
+- name: Determine a ação atualizada do software
+  set_fact:
+    osx_update_action: "--install"
+  when: osx_update_install
+
+- name: Determine a ação atualizada do software
+  set_fact:
+    osx_update_action: "--download"
+  when: osx_update_install
+
+- name: Determine as atualizações do update do software
+  set_fact:
+    osx_update_updates: "--recommended"
+  when: osx_update_recommended_only
+
+- name: Determine as atualizações do update do software
+  set_fact:
+    osx_update_updates: "--all"
+  when: not osx_update_recommended_only
+
+- name: Execute o comando softwareupdate
+  command: "{{ 'softwareupdate ' + osx_update_action + ' ' + osx_update_updates }}"
+  when: osx_update_install or osx_update_download
+# Execute o playbook para CommandLineTools
+- include: CommandLineTools.yml

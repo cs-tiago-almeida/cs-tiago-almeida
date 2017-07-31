@@ -1,0 +1,29 @@
+---
+## Variaveis.
+## Onde instalar o rbenv
+rbenv_root: $HOME/.rbenv
+rbenv_bin: $rbenv_env rbenv
+
+## A versap do Ruby a ser instalada
+# ruby_version: ''
+
+## Os usuarios
+rbenv_users:
+      - {
+        user: bananinha-user,
+        group: staff
+        }
+rbenv_users_home_path_prefix: "/Users"
+
+## Compilar a extensão bash dinâmica para acelerar o rbenv. Opcional.
+use_rbenv_extension: True
+
+## Configurações para adicionar rbenv ao caminho. Entre a variavel {{ profile_file }}
+## e a variavel {{ export_line }}
+## Configure esta função para trabalhar com (pelo menos) bash, zsh, and fish.
+rbenv_profile_file: ".bash_profile"
+rbenv_export_line: 'export PATH="$HOME/.rbenv/bin:$PATH"'
+
+## Instalar ou não o Ruby-build como um plugin rbenv.
+## @see https://github.com/rbenv/ruby-build
+install_ruby_build: True

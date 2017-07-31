@@ -1,0 +1,6 @@
+---
+#
+osx_update_install: True
+osx_update_recommended_only: True
+osx_update_download_only: False
+force_install: no

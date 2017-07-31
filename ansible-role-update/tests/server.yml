@@ -1,0 +1,4 @@
+---
+- hosts: itau
+  roles:
+    - ansible-role-update
